@@ -1,0 +1,42 @@
+{
+  "name": "discord-grota",
+  "description": "A simple Discord server management bot built to meet the needs of the client.",
+  "version": "0.0.1",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "clear && nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yuridv/discord-grota.git"
+  },
+  "keywords": [
+    "node",
+    "bot",
+    "discord",
+    "manage",
+    "rp",
+    "logs",
+    "roles",
+    "channels"
+  ],
+  "author": "Yuri",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yuridv/discord-grota/issues"
+  },
+  "homepage": "https://github.com/yuridv/discord-grota#readme",
+  "engines": {
+    "node": ">=22.0.0"
+  },
+  "dependencies": {
+    "discord.js": "^14.21.0",
+    "dotenv-safe": "^9.1.0",
+    "mongoose": "^8.15.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.57.1",
+    "nodemon": "^3.1.10"
+  }
+}
