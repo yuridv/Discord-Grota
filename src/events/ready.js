@@ -4,7 +4,7 @@ const { ActivityType } = require('discord.js');
 
 const event = (client) => {
   try {
-    console.log(colors.GREEN + colors.BOLD + '[Discord.JS]=> Started successfully!' + colors.RESET);
+    console.log(colors.GREEN + colors.BOLD + '[Discord]=> Started successfully!' + colors.RESET);
 
     client.user.setPresence({
       status: 'dnd',
@@ -17,6 +17,6 @@ const event = (client) => {
       .then(() => event(client))
       .catch((e) => e);
   }
-}
+};
 
 module.exports = event;

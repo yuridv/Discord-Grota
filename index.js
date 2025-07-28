@@ -1,11 +1,11 @@
 require('dotenv-safe').config();
 
-const { base, colors } = require('./src/utils/bases');
-const { Files } = require('./src/utils/functions');
-
 const { Client, GatewayIntentBits, REST, Routes } = require('discord.js');
 
-console.log(colors.YELLOW + '[Discord.JS]=> Starting...' + colors.RESET);
+const { base, colors } = require('./src/utils/bases');
+const { Files, MongoDB } = require('./src/utils/functions');
+
+console.log(colors.YELLOW + '[Discord]=> Starting...' + colors.RESET);
 
 base.client = new Client({
   status: 'online',
@@ -32,9 +32,13 @@ base.client.commands = [];
 const Commands = Files('./src/commands/', { removeDir: 1 });
 for (const c in Commands) base.client.commands.push({ name: c, ...Commands[c] });
 
-base.client.login(process.env.BOT_TOKEN)
+MongoDB()
   .then(() => {
-    const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN);
-    rest.put(Routes.applicationCommands(base.client.user.id), { body: base.client.commands });
+    base.client.login(process.env.BOT_TOKEN)
+      .then(() => {
+        const rest = new REST({ version: '10' }).setToken(process.env.BOT_TOKEN);
+        rest.put(Routes.applicationCommands(base.client.user.id), { body: base.client.commands });
+      })
+      .catch((err) => console.log(`${colors.RED}[Discord Error]=> ${colors.RESET}`, err));
   })
-  .catch((err) => console.log('[Discord]=> Login Error: ', err));
+  .catch((e) => console.log(`${colors.RED}[MongoDB Error]=> ${e}${colors.RESET}`));
