@@ -24,7 +24,6 @@ base.client = new Client({
   ]
 });
 
-
 const Events = Files('./src/events/', { removeDir: 1 });
 for (const e in Events) base.client.on(e, Events[e].bind(null, base.client));
 
