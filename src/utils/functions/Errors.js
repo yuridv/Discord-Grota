@@ -29,8 +29,8 @@ const Errors = (err, menu) => new Promise(async(res, rej) => {
   
   else {
     console.log(err);
-    console.log(`${colors.RED}[${menu}]=> Ocorreu algum ERRO inesperado em nosso sistema...${colors.RESET}`);
-    return rej({ error: `[${menu}]=> Ocorreu algum ERRO inesperado em nosso sistema! Tente novamente mais tarde...` });
+    console.log(`${colors.RED}[${menu} ERROR]=> ${colors.RESET}`);
+    return rej({ error: 'Ocorreu algum ERRO inesperado em meu sistema! Reporte ao meu desenvolvedor...' });
   }
 });
 

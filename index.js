@@ -31,6 +31,10 @@ base.client.commands = [];
 const Commands = Files('./src/commands/', { removeDir: 1 });
 for (const c in Commands) base.client.commands.push({ name: c, ...Commands[c] });
 
+base.client.buttons = [];
+const Buttons = Files('./src/buttons/', { removeDir: 1 });
+for (const b in Buttons) base.client.buttons.push({ name: b, ...Buttons[b] });
+
 MongoDB()
   .then(() => {
     base.client.login(process.env.BOT_TOKEN)
