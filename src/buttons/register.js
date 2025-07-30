@@ -93,13 +93,13 @@ const command = async(client, interaction) => {
     }
 
     const approve = new ButtonBuilder()
-      .setCustomId('approve')
+      .setCustomId(`approve-${interaction.user.id}`)
       .setEmoji('✔️')
       .setLabel('Aprovar')
       .setStyle(ButtonStyle.Success);
 
     const reject = new ButtonBuilder()
-      .setCustomId('reject')
+      .setCustomId(`reject-${interaction.user.id}`)
       .setEmoji('✖️')
       .setLabel('Rejeitar')
       .setStyle(ButtonStyle.Danger);
@@ -115,7 +115,7 @@ const command = async(client, interaction) => {
         answers
       );
 
-    await interaction.guild.channels.cache.find((c) => c.id === config.approval_channel).send({ content: `<@${interaction.user.id}>`, embeds: [ approval ], components: [ row ] });
+    return interaction.guild.channels.cache.find((c) => c.id === config.approval_channel).send({ content: `<@${interaction.user.id}>`, embeds: [ approval ], components: [ row ] });
   } catch(err) {
     return Errors(err, `Command ${__filename}`)
       .then(() => command(client, interaction))
@@ -124,6 +124,5 @@ const command = async(client, interaction) => {
 };
 
 module.exports = { 
-  route: command,
-  description: '🎉 [Mensagens] 🎉 | Comando para gerar a mensagem de registro.'
+  route: command
 };

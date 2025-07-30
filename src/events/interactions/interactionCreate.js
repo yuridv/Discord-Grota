@@ -9,10 +9,13 @@ const event = async(client, interaction) => {
       const args = interaction.options._hoistedOptions;
       await command.route(client, interaction, args);
     } else if (interaction.isButton()) {
-      const button = client.buttons.find(r => r.name === interaction.customId);
+      const id = interaction.customId.split('-')[0]; 
+      const args = interaction.customId.split('-');
+
+      const button = client.buttons.find(r => r.name === id);
       if (!button || !button.route) return;
 
-      await button.route(client, interaction);
+      await button.route(client, interaction, args);
     }
 
   } catch(err) {
