@@ -93,7 +93,7 @@ const command = async(client, interaction) => {
     }
 
     const approve = new ButtonBuilder()
-      .setCustomId(`approve-${interaction.user.id}`)
+      .setCustomId(`approve-${interaction.user.id}-${result.id}-${result.name}`)
       .setEmoji('✔️')
       .setLabel('Aprovar')
       .setStyle(ButtonStyle.Success);

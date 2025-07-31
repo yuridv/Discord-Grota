@@ -10,7 +10,7 @@ const event = async(client, interaction) => {
       await command.route(client, interaction, args);
     } else if (interaction.isButton()) {
       const id = interaction.customId.split('-')[0]; 
-      const args = interaction.customId.split('-');
+      const args = interaction.customId.split('-').filter((r, i) => i !== 0);
 
       const button = client.buttons.find(r => r.name === id);
       if (!button || !button.route) return;
