@@ -24,7 +24,7 @@ const command = async(client, interaction, args) => {
         parent: config.farm_category,
         permissionOverwrites: [
           { id: interaction.guild.id, deny: [ PermissionFlagsBits.ViewChannel ] },
-          { id: interaction.user.id, allow: [ PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages ] },
+          { id: user.id, allow: [ PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages ] },
           { id: config.gerente_farm_role, allow: [ PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages ] }
         ]
       });
