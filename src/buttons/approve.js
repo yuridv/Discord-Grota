@@ -16,10 +16,10 @@ const command = async(client, interaction, args) => {
     await user.roles.add(config.member_role).catch(() => {});
     await user.roles.remove(config.random_role).catch(() => {});
 
-    const verify = interaction.guild.channels.cache.find((c) => c.name === `・${args[2]}-${args[1]}`);
+    const verify = interaction.guild.channels.cache.find((c) => c.name === `📁・${args[2]}-${args[1]}`);
     if (!verify) {
       const channel = await interaction.guild.channels.create({
-        name: `・${args[2]}-${args[1]}`,
+        name: `📁・${args[2]}-${args[1]}`,
         type: ChannelType.GuildText,
         parent: config.farm_category,
         permissionOverwrites: [
@@ -51,7 +51,7 @@ const command = async(client, interaction, args) => {
           '\n\n*__Atenciosamente Grota・Meta City__*'
         );
 
-      await channel.send({ content: `<@${user.user.id}> - <@&${config.gerente_farm_role}>`, embeds: [ embed ] });
+      await channel.send({ content: `<@${user.id}> - <@&${config.gerente_farm_role}>`, embeds: [ embed ] });
     }
 
     return interaction.update({ embeds: [ embedEdited ], components: [] }).catch(() => {});
