@@ -1,10 +1,14 @@
-const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle, MessageFlags } = require('discord.js');
+const { EmbedBuilder, ButtonBuilder, ActionRowBuilder, ButtonStyle, MessageFlags, PermissionFlagsBits } = require('discord.js');
 
 const { Errors } = require('../../utils/functions');
 const config = require('../../../config.json');
 
 const command = async(client, interaction, args) => {
   try {
+    if (!interaction.member.permissions.has(PermissionFlagsBits.ADMINISTRATOR)) {
+      return interaction.reply({ flags: MessageFlags.Ephemeral, content: 'Você não possui permissão de administrador para utilizar esse comando!' });
+    }
+
     const register = new ButtonBuilder()
       .setCustomId('register')
       .setEmoji('✨')

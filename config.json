@@ -11,5 +11,16 @@
   "member_role": "1362586281258778816",
 
   "gerente_farm_role": "1374236935048007740",
-  "farm_category": "1386164706426753086"
+  "farm_category": "1386164706426753086",
+
+  "role_01": "1362573606042734723",
+  "role_02": "1362573607393427710",
+  "role_03": "1362573608639008980",
+  "role_manager_general": "1374236709931323434",
+  "role_manager_action": "1374236227959783484",
+  "role_manager_sales": "1385820467436195891",
+  "role_manager_farm": "1374236935048007740",
+  "role_manager_recruitment": "1384657742165442660",
+  "role_manager_partnership": "1399083428158111826",
+  "role_elite": "1390801514179596389"
 }
