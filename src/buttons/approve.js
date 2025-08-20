@@ -36,24 +36,22 @@ const command = async(client, interaction, args) => {
           '*__Esse chat é usado para você enviar fotos da sua farm diária__*' +
           
           '\n\n> **Importante:**' +
-          '\n» *Obrigatório no mínimo* ***200*** *farm de cada item por* ***DIA***' +
-          '\n» *A cada* ***200*** *farm de itens, você ganha* ***R$ 100.000*** ***(Acumulativo)***' +
-          '\n» *Tire foto da tela inteira antes de colocar os itens no baú*' +
-          '\n» *Anexe as fotos junto com o modelo de contagem dos itens!*' +
+          '\n» *Obrigatório no mínimo* ***800*** *farm de cada item por* ***DIA***' +
+          '\n» *A cada* ***800 PEÇAS DE ARMA*** *você ganha* ***R$ 100.000***' +
+          '\n» *Após colocar a farm no baú, encaminhe a* ***LOG*** *nesse canal!*' +
+          '\n» *Tire foto da tela inteira antes de colocar a* ***FARM*** *no baú!*' +
+          '\n» *Anexe as fotos junto com o modelo abaixo da contagem dos itens!*' +
 
           '\n\n> **Modelo da contagem:**' +
-          '\n・ Panos: **00**' +
-          '\n・ Linhas: **00**' +
-          '\n・ Papeis: **00**' +
-          '\n・ Colas: **00**' +
-          '\n・ Cabos Eletrônicos: **00**' +
-          '\n・ Plásticos: **00**' +
+          '\n・ Peças de Arma: **800**' +
 
           '\n\n***Fotos fora do padrão ou com farm incompleto não serão aceitos!***' +
+          '\n\n***Tutorial das Logs: __https://files.catbox.moe/p9xo15.mp4__!***' +
+
           '\n\n*__Atenciosamente Grota・Meta City__*'
         );
 
-      await channel.send({ content: `<@${interaction.user.id}> - <@&${config.gerente_farm_role}>`, embeds: [ embed ] });
+      await channel.send({ content: `<@${user.user.id}> - <@&${config.gerente_farm_role}>`, embeds: [ embed ] });
     }
 
     return interaction.update({ embeds: [ embedEdited ], components: [] }).catch(() => {});

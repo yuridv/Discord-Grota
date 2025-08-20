@@ -24,8 +24,8 @@ const command = async(client, interaction, args) => {
       .setAuthor({ name: 'Hierarquia - ' + config.name, iconURL: config.avatar })
       .setColor(config.color)
       .setDescription(
-        '*__Essa é a lista da hierarquia da facção!__*\n' +
-        '*__Respeite a hierarquia, caso o contrario você será punido!__*'
+        '*Essa é a lista da hierarquia da facção!*\n' +
+        '*Respeite a hierarquia, caso o contrario você será punido!*'
       )
       .setFields(
         { name: '> ***__Líderes (01):__***', value: role_01.members.map((member) => `・${member.nickname} - <@${member.user.id}>` ).join('\n') },
@@ -38,7 +38,8 @@ const command = async(client, interaction, args) => {
         { name: '> ***__Gerente de Recrutamento:__***', value: role_manager_recruitment.members.map((member) => `・${member.nickname} - <@${member.user.id}>` ).join('\n') },
         { name: '> ***__Gerente de Parceria:__***', value: role_manager_partnership.members.map((member) => `・${member.nickname} - <@${member.user.id}>` ).join('\n') },
         { name: '> ***__Membros da Elite:__***', value: role_elite.members.map((member) => `・${member.nickname} - <@${member.user.id}>` ).join('\n') }
-      );
+      )
+      .setThumbnail(client.user.displayAvatarURL());
 
     return interaction.reply({
       content: '@everyone',
