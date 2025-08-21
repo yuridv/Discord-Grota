@@ -32,7 +32,7 @@ const command = async(client, interaction, args) => {
         '\n3º Você precisará informar o seu **ID** da cidade!' +
         '\n4º Você precisará informar o seu **Nome e Sobrenome** da cidade!' +
         '\n5º Você precisará informar o seu **Número de Telefone** da cidade!' +
-        '\n6º Você precisará informar o **ID** de quem te **recrutou**!' +
+        '\n6º Você precisará informar o **ID** de quem te **Recrutou**!' +
 
         '\n\n> **Informações**' +
         '\n• *Após fazer o seu registro, você precisa aguardar até que um dos nossos gerentes possa aprovar o seu registro!*' +

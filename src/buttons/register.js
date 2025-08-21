@@ -4,10 +4,10 @@ const { Errors } = require('../utils/functions');
 const config = require('../../config.json');
 
 const asks = [
-  { type: 'id', msg: '• *Qual o seu* ***ID*** *dentro da cidade?*' },
-  { type: 'name', msg: '• *Qual o seu* ***Nome e Sobrenome*** *dentro da cidade?*' },
-  { type: 'phone', msg: '• *Qual o seu* ***Número de Telefone*** *dentro da cidade?*' },
-  { type: 'recruiter', msg: '• *Qual o* ***ID*** *de quem te* ***Recrutou*** *dentro da cidade?*' }
+  { id: 'id', msg: '• *Qual o seu* ***ID*** *dentro da cidade?*' },
+  { id: 'name', msg: '• *Qual o seu* ***Nome e Sobrenome*** *dentro da cidade?*' },
+  { id: 'phone', msg: '• *Qual o seu* ***Número de Telefone*** *dentro da cidade?*' },
+  { id: 'recruiter', msg: '• *Qual o* ***ID*** *de quem te* ***Recrutou*** *dentro da cidade?*' }
 ];
 
 const ordinais = {
@@ -33,12 +33,14 @@ const command = async(client, interaction) => {
       parent: config.register_category,
       permissionOverwrites: [
         { id: interaction.guild.id, deny: [ PermissionFlagsBits.ViewChannel ] },
-        { id: config.gerente_farm_role, allow: [ PermissionFlagsBits.ViewChannel ] },
+        { id: config.role_manager_recruitment, allow: [ PermissionFlagsBits.ViewChannel ] },
         { id: interaction.user.id, allow: [ PermissionFlagsBits.ViewChannel, PermissionFlagsBits.SendMessages ] }
       ]
     });
 
     setTimeout(() => channel.delete().catch(() => {}), 5 * 60 * 1000);
+
+    await interaction.guild.members.fetch();
 
     await interaction.reply({
       content: `✅ ・ Foi criado um **canal** para você fazer o seu registro ${channel}`,
@@ -58,22 +60,60 @@ const command = async(client, interaction) => {
 
       const ask = await channel.send({ content: `<@${interaction.user.id}>`, embeds: [ embed ] });
 
-      try {
-        const collected = await channel.awaitMessages({
-          filter: m => m.author.id === interaction.user.id,
-          max: 1,
-          time: 5 * 60 * 1000,
-          errors: [ 'time' ]
-        });
+      let response_error;
+      const waitMessage = async() => {
+        try {
+          const collected = await channel.awaitMessages({
+            filter: m => m.author.id === interaction.user.id,
+            max: 1,
+            time: 5 * 60 * 1000,
+            errors: [ 'time' ]
+          });
 
-        const msg = collected.first();
-        result[asks[i].type] = msg.content;
+          const msg = collected.first();
+          await msg.delete().catch(() => {});
+          if (response_error) await response_error.delete().catch(() => {});
+          
+          if (asks[i].id === 'id' && (!Number(msg.content) || String(msg.content).length > 5)) {
+            response_error = await channel.send({ content: `🚫 | <@${interaction.user.id}> O seu **ID** precisa ser apenas **números**, e conter no máximo **5** dígitos!\n> ・ ***Exemplo:*** *__123456__*` }).catch(() => {});
+            return waitMessage();
+          } else if (asks[i].id === 'name' && (String(msg.content).length > 24 || !String(msg.content).includes(' '))) {
+            response_error = await channel.send({ content: `🚫 | <@${interaction.user.id}> Você precisa por o **nome** e **sobrenome**, e conter no máximo **24** caracteres!\n> ・ ***Exemplo:*** *__João Silva__*` }).catch(() => {});
+            return waitMessage();
+          } else if (asks[i].id === 'phone') {
+            if (!Number(msg.content.replace('-','')) || (String(msg.content.replace('-','')).length !== 6 && String(msg.content.replace('-','')).length !== 3)) {
+              response_error = await channel.send({ content: `🚫 | <@${interaction.user.id}> O seu **telefone** precisa conter apenas **números** e **-**, e conter **6** ou **3** números!\n> ・ ***Exemplo:*** *__123-456__*` }).catch(() => {});
+              return waitMessage();
+            }
 
-        await msg.delete().catch(() => {});
-        await ask.delete().catch(() => {});
-      } catch(err) {
-        return channel.delete().catch(() => {});
-      }
+            if (msg.content.replace('-','').length === 6) {
+              msg.content = msg.content.replace('-','').slice(0, 3) + '-' + msg.content.replace('-','').slice(3);
+            }
+          } else if (asks[i].id === 'recruiter') {
+            if (!Number(msg.content) || String(msg.content).length > 5) {
+              response_error = await channel.send({ content: `🚫 | <@${interaction.user.id}> O **ID** do recrutador precisa ser apenas **números**, e conter no máximo **5** dígitos!\n> ・ ***Exemplo:*** *__123456__*` }).catch(() => {});
+              return waitMessage();
+            }
+
+            const member = interaction.guild.members.cache.find(m => new RegExp(`\\b${msg.content}$`).test(m?.displayName) && m?.roles.cache.has(config.role_manager_recruitment));
+            if (!member) {
+              response_error = await channel.send({ content: `🚫 | <@${interaction.user.id}> Não encontrei nenhum **recrutador** com esse **ID** aqui dentro do servidor!` }).catch(() => {});
+              return waitMessage();
+            }
+
+            msg.content = msg.content + ` - ${member.nickname} - <@${member.user.id}>`;
+          }
+
+
+          result[asks[i].id] = msg.content;
+
+          await ask.delete().catch(() => {});
+        } catch(err) {
+          return channel.delete().catch(() => {});
+        }
+      };
+
+      await waitMessage();
     }
 
     const embed = new EmbedBuilder()
@@ -90,7 +130,7 @@ const command = async(client, interaction) => {
 
     let answers = '';
     for (let i = 0; i < asks.length; i++) {
-      answers += `\n> ${asks[i].msg}\n**${result[asks[i].type]}**\n`;
+      answers += `\n> ${asks[i].msg}\n**${result[asks[i].id]}**\n`;
     }
 
     const approve = new ButtonBuilder()
@@ -116,7 +156,7 @@ const command = async(client, interaction) => {
         answers
       );
 
-    return interaction.guild.channels.cache.find((c) => c.id === config.approval_channel).send({ content: `<@${interaction.user.id}>`, embeds: [ approval ], components: [ row ] });
+    return interaction.guild.channels.cache.find((c) => c.id === config.register_approval_channel).send({ content: `<@${interaction.user.id}>`, embeds: [ approval ], components: [ row ] });
   } catch(err) {
     return Errors(err, `Command ${__filename}`)
       .then(() => command(client, interaction))

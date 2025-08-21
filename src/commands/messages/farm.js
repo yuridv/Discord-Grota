@@ -15,8 +15,6 @@ const command = async(client, interaction, args) => {
 
     await interaction.guild.members.fetch();
 
-
-
     for (const channel of channels) {
       const id = channel[1].name.match(/\d+$/);
       if (id) {
@@ -35,8 +33,8 @@ const command = async(client, interaction, args) => {
             '*__Esse chat é usado para você enviar fotos da sua farm diária__*' +
             
             '\n\n> **Importante:**' +
-            '\n» *Obrigatório no mínimo* ***800*** *farm de cada item por* ***DIA***' +
-            '\n» *A cada* ***800 PEÇAS DE ARMA*** *você ganha* ***R$ 100.000***' +
+            '\n» *Obrigatório no mínimo* ***800*** *farm de cada item por* ***DIA!***' +
+            '\n» *A cada* ***800 PEÇAS DE ARMA*** *você ganha* ***R$ 100.000!***' +
             '\n» *Após colocar a farm no baú, encaminhe a* ***LOG*** *nesse canal!*' +
             '\n» *Tire foto da tela inteira antes de colocar a* ***FARM*** *no baú!*' +
             '\n» *Anexe as fotos junto com o modelo abaixo da contagem dos itens!*' +
@@ -51,7 +49,7 @@ const command = async(client, interaction, args) => {
           );
 
         await channel[1].send({
-          content: `<@${member.user.id}> - <@&${config.gerente_farm_role}>`,
+          content: `<@${member.user.id}> - <@&${config.role_manager_farm}>`,
           embeds: [ embed ]
         });
       }
