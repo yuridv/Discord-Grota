@@ -23,5 +23,8 @@
   "farm_category": "1386164706426753086",
 
   "logs_channel_entry": "1408508438966702151",
-  "logs_channel_exit": "1408516505146228846"
+  "logs_channel_exit": "1408516505146228846",
+  "logs_channel_chest": "1408543422020714618",
+
+  "bot_webhook_chest": "1408550837734604800"
 }
