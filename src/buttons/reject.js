@@ -5,15 +5,17 @@ const { Errors } = require('../utils/functions');
 const command = async(client, interaction, args) => {
   try {
     const embedEdited = EmbedBuilder.from(interaction.message.embeds[0])
-      .setFields({ name: '> *• Quem Rejeitou:*', value: `**${interaction.member.nickname} - <@${interaction.user.id}>**` })
+      .setFields({ name: '> ***• Quem Rejeitou:***', value: `*__${interaction.member.nickname} - <@${interaction.user.id}>__*` })
       .setColor('#FF0000');
 
+    await interaction.update({ embeds: [ embedEdited ], components: [] }).catch(() => {});
+
     const user = await interaction.guild.members.cache.get(args[0]);
-    if (!user) return interaction.update({ embeds: [ embedEdited ], components: [] }).catch(() => {});
+    if (!user) return;
 
     await user.kick('Registro reprovado').catch(() => {});
 
-    return interaction.update({ embeds: [ embedEdited ], components: [] }).catch(() => {});
+    return;
   } catch(err) {
     return Errors(err, `Command ${__filename}`)
       .then(() => command(client, interaction))

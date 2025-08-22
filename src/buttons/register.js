@@ -128,10 +128,10 @@ const command = async(client, interaction) => {
 
     setTimeout(() => channel.delete().catch(() => {}), 10 * 1000);
 
-    let answers = '';
-    for (let i = 0; i < asks.length; i++) {
-      answers += `\n> ${asks[i].msg}\n**${result[asks[i].id]}**\n`;
-    }
+    // let answers = '';
+    // for (let i = 0; i < asks.length; i++) {
+    //   answers += `\n> ${asks[i].msg}\n**${result[asks[i].id]}**\n`;
+    // }
 
     const approve = new ButtonBuilder()
       .setCustomId(`approve-${interaction.user.id}-${result.id}-${result.name}`)
@@ -153,10 +153,14 @@ const command = async(client, interaction) => {
       .setColor(config.color)
       .setDescription(
         '__*Um novo usuário efetuou o registro!*__\n\n' +
-        answers
+        
+        `> ***ID:*** *__${result[asks[0].id]}__*\n` +
+        `> ***Nome e Sobrenome:*** *__${result[asks[1].id]}__*\n` +
+        `> ***Número de Telefone:*** *__${result[asks[2].id]}__*\n` +
+        `> ***ID do Recrutador:*** *__${result[asks[3].id]}__*\n`
       );
 
-    return interaction.guild.channels.cache.find((c) => c.id === config.register_approval_channel).send({ content: `<@${interaction.user.id}>`, embeds: [ approval ], components: [ row ] });
+    return interaction.guild.channels.cache.find((c) => c.id === config.register_channel_approval).send({ content: `*<@&${config.role_manager_recruitment}>, O usuário <@${interaction.user.id}>, efetuou um novo registro!*`, embeds: [ approval ], components: [ row ] });
   } catch(err) {
     return Errors(err, `Command ${__filename}`)
       .then(() => command(client, interaction))

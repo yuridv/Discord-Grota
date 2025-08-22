@@ -6,20 +6,13 @@ const config = require('../../config.json');
 const command = async(client, interaction, args) => {
   try {
     const embedEdited = EmbedBuilder.from(interaction.message.embeds[0])
-      .setFields({ name: '> *• Quem Aprovou:*', value: `**${interaction.member.nickname} - <@${interaction.user.id}>**` })
+      .setFields({ name: '> ***• Quem Aprovou:***', value: `*__${interaction.member.nickname} - <@${interaction.user.id}>__*` })
       .setColor('#00FF00');
 
     await interaction.update({ embeds: [ embedEdited ], components: [] }).catch(() => {});
 
-    const embedEditedRed = EmbedBuilder.from(interaction.message.embeds[0])
-      .setFields(
-        { name: '> *• Quem Aprovou:*', value: `**${interaction.user.nickname} - <@${interaction.user.id}>**` },
-        { name: '> *• Motivo:*', value: '**O usuário não foi encontrado...**' }
-      )
-      .setColor('#FF0000');
-
     const user = await interaction.guild.members.cache.get(args[0]);
-    if (!user) return interaction.update({ embeds: [ embedEditedRed ], components: [] }).catch(() => {});
+    if (!user) return;
 
     await user.setNickname(args[2] + ' / ' + args[1]).catch(() => {});
 
@@ -64,7 +57,7 @@ const command = async(client, interaction, args) => {
       await channel.send({ content: `<@${user.id}> - <@&${config.role_manager_farm}>`, embeds: [ embed ] });
     }
 
-    return interaction.update({ embeds: [ embedEdited ], components: [] }).catch(() => {});
+    return;
   } catch(err) {
     return Errors(err, `Command ${__filename}`)
       .then(() => command(client, interaction))

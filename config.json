@@ -4,11 +4,6 @@
 
   "color": "#F3A500",
 
-  "register_category": "1399828549371691162",
-  "farm_category": "1386164706426753086",
-
-  "register_approval_channel": "1399829364413300827",
-
   "role_01": "1362573606042734723",
   "role_02": "1362573607393427710",
   "role_03": "1362573608639008980",
@@ -20,5 +15,13 @@
   "role_manager_partnership": "1399083428158111826",
   "role_elite": "1390801514179596389",
   "role_member": "1362586281258778816",
-  "role_random": "1398847705391824998"
+  "role_random": "1398847705391824998",
+
+  "register_category": "1399828549371691162",
+  "register_channel_approval": "1399829364413300827",
+
+  "farm_category": "1386164706426753086",
+
+  "logs_channel_entry": "1408508438966702151",
+  "logs_channel_exit": "1408510447354642603"
 }
