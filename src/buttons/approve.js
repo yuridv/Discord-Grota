@@ -1,4 +1,4 @@
-const { MessageFlags, EmbedBuilder, ChannelType, PermissionFlagsBits, IntentsBitField } = require('discord.js');
+const { MessageFlags, EmbedBuilder, ChannelType, PermissionFlagsBits } = require('discord.js');
 
 const { Errors } = require('../utils/functions');
 const config = require('../../config.json');
