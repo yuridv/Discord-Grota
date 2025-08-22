@@ -5,7 +5,7 @@ const { Errors } = require('../utils/functions');
 const command = async(client, interaction, args) => {
   try {
     const embedEdited = EmbedBuilder.from(interaction.message.embeds[0])
-      .setFields({ name: '> ***• Quem Rejeitou:***', value: `*__${interaction.member.nickname} - <@${interaction.user.id}>__*` })
+      .setFields({ name: '> ***• Quem Rejeitou:***', value: `> *${interaction.member.nickname} - <@${interaction.user.id}>*` })
       .setColor('#FF0000');
 
     await interaction.update({ embeds: [ embedEdited ], components: [] }).catch(() => {});

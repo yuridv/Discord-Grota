@@ -154,10 +154,10 @@ const command = async(client, interaction) => {
       .setDescription(
         '__*Um novo usuário efetuou o registro!*__\n\n' +
         
-        `> ***ID:*** *__${result[asks[0].id]}__*\n` +
-        `> ***Nome e Sobrenome:*** *__${result[asks[1].id]}__*\n` +
-        `> ***Número de Telefone:*** *__${result[asks[2].id]}__*\n` +
-        `> ***ID do Recrutador:*** *__${result[asks[3].id]}__*\n`
+        `> ***ID:*** *${result[asks[0].id]}*\n` +
+        `> ***Nome e Sobrenome:*** *${result[asks[1].id]}*\n` +
+        `> ***Número de Telefone:*** *${result[asks[2].id]}*\n` +
+        `> ***ID do Recrutador:*** *${result[asks[3].id]}*\n`
       );
 
     return interaction.guild.channels.cache.find((c) => c.id === config.register_channel_approval).send({ content: `*<@&${config.role_manager_recruitment}>, O usuário <@${interaction.user.id}>, efetuou um novo registro!*`, embeds: [ approval ], components: [ row ] });

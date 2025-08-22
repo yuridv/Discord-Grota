@@ -6,7 +6,7 @@ const config = require('../../config.json');
 const command = async(client, interaction, args) => {
   try {
     const embedEdited = EmbedBuilder.from(interaction.message.embeds[0])
-      .setFields({ name: '> ***• Quem Aprovou:***', value: `*__${interaction.member.nickname} - <@${interaction.user.id}>__*` })
+      .setFields({ name: '> ***• Quem Aprovou:***', value: `> *${interaction.member.nickname} - <@${interaction.user.id}>*` })
       .setColor('#00FF00');
 
     await interaction.update({ embeds: [ embedEdited ], components: [] }).catch(() => {});

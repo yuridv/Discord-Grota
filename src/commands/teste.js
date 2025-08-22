@@ -21,12 +21,12 @@ const command = async(client, interaction, args) => {
       .setColor(config.color)
       .setDescription(
         '__*Um novo usuário efetuou o registro!*__\n\n' +
-        '> ***ID:*** *__14416__*\n' +
-        '> ***Nome e Sobrenome:*** *__Dragon Pearson__*\n' +
-        '> ***Número de Telefone:*** *__551-562__*\n' +
-        '> ***ID do Recrutador:*** *__4987 - <@1254227569902096485>__*\n'
+        '> ***ID:*** *14416*\n' +
+        '> ***Nome e Sobrenome:*** *Dragon Pearson*\n' +
+        '> ***Número de Telefone:*** *551-562*\n' +
+        '> ***ID do Recrutador:*** *4987 - <@1254227569902096485>*\n'
       )
-      .setFields({ name: '> ***• Quem Aprovou:***', value: '*__Terrão / 4987 - <@1254227569902096485>__*' });
+      .setFields({ name: '> ***• Quem Aprovou:***', value: '> *Terrão / 4987 - <@1254227569902096485>*' });
 
     return interaction.reply({
       embeds: [ embed ],
