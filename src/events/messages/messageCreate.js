@@ -5,9 +5,8 @@ const { WebhookClient, EmbedBuilder } = require('discord.js');
 
 const event = (client, message) => {
   try {
-    console.log(message.author.id, message.channel.id)
     if (message.author.id === config.bot_webhook_chest && message.channel.id === config.logs_channel_chest) {
-      console.log('LOG CHEST')
+      console.log('LOG CHEST');
     }
   } catch (err) {
     return Errors(err, `Event ${__filename}`)
