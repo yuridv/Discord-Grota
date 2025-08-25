@@ -9,7 +9,7 @@ const event = (client) => {
     client.user.setPresence({
       status: 'dnd',
       activities: [
-        { name: 'Created by MrDragon', type: ActivityType.Streaming }
+        { name: 'Created by MrDragon', type: ActivityType.Streaming, url: 'https://twitch.tv/mrdragonzin' }
       ]
     });
   } catch(err) {
