@@ -20,12 +20,14 @@ const event = async(client, member) => {
         `> ***ID do Discord:*** *${member.user.id}*\n`
       );
 
-    await channel.send({ embeds: [ embed ] });
+    await channel.send({ embeds: [ embed ] }).catch(() => {});
 
     const match = member.nickname?.match(/(\d+)$/);
     if (!match || !match[1]) return;
 
     const channelFarm = member.guild.channels.cache.find((c) => c.name.endsWith(match[1]) && c.name.includes('📁'));
+    if (!channelFarm) return;
+
     await channelFarm.delete().catch(() => {});
   } catch(err) {
     return Errors(err, `Event ${__filename}`)

@@ -9,7 +9,7 @@ const event = (client) => {
     client.user.setPresence({
       status: 'dnd',
       activities: [
-        { name: 'Em Construção...', type: ActivityType.Streaming }
+        { name: 'Created by MrDragon', type: ActivityType.Streaming }
       ]
     });
   } catch(err) {
