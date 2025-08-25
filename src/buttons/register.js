@@ -7,7 +7,8 @@ const asks = [
   { id: 'id', msg: '• *Qual o seu* ***ID*** *dentro da cidade?*' },
   { id: 'name', msg: '• *Qual o seu* ***Nome e Sobrenome*** *dentro da cidade?*' },
   { id: 'phone', msg: '• *Qual o seu* ***Número de Telefone*** *dentro da cidade?*' },
-  { id: 'recruiter', msg: '• *Qual o* ***ID*** *de quem te* ***Recrutou*** *dentro da cidade?*' }
+  { id: 'recruiter', msg: '• *Qual o* ***ID*** *de quem te* ***Recrutou*** *dentro da cidade?*' },
+  { id: 'factions', msg: '• *Entre no servidor de Facções:* ***https://discord.gg/c8KjSDpXNk***\n*Após entrar, responda* ***"sim"*** *aqui no chat!*' }
 ];
 
 const ordinais = {
@@ -102,6 +103,11 @@ const command = async(client, interaction) => {
             }
 
             msg.content = msg.content + ` - ${member.nickname} - <@${member.user.id}>`;
+          } else if (asks[i].id === 'factions') {
+            if (msg.content !== 'sim' && msg.content !== 'Sim') {
+              response_error = await channel.send({ content: `🚫 | <@${interaction.user.id}> *Entre no servidor de* ***Facções*** *e responda apenas* ***"Sim"***` }).catch(() => {});
+              return waitMessage();
+            }
           }
 
 
@@ -128,11 +134,6 @@ const command = async(client, interaction) => {
 
     setTimeout(() => channel.delete().catch(() => {}), 10 * 1000);
 
-    // let answers = '';
-    // for (let i = 0; i < asks.length; i++) {
-    //   answers += `\n> ${asks[i].msg}\n**${result[asks[i].id]}**\n`;
-    // }
-
     const approve = new ButtonBuilder()
       .setCustomId(`approve-${interaction.user.id}-${result.id}-${result.name}`)
       .setEmoji('✔️')
@@ -148,6 +149,9 @@ const command = async(client, interaction) => {
     const row = new ActionRowBuilder()
       .addComponents(approve, reject);
 
+    const channelApproval = interaction.guild.channels.cache.find((c) => c.id === config.register_channel_approval);
+    if (!channelApproval) return;
+
     const approval = new EmbedBuilder()
       .setAuthor({ name: 'Registro - ' + config.name, iconURL: config.avatar })
       .setColor(config.color)
@@ -157,10 +161,18 @@ const command = async(client, interaction) => {
         `> ***ID:*** *${result[asks[0].id]}*\n` +
         `> ***Nome e Sobrenome:*** *${result[asks[1].id]}*\n` +
         `> ***Número de Telefone:*** *${result[asks[2].id]}*\n` +
-        `> ***ID do Recrutador:*** *${result[asks[3].id]}*\n`
+        `> ***ID do Recrutador:*** *${result[asks[3].id]}*\n` +
+
+        '\n> ***Solicitar SET:***\n' +
+        '```' +
+        `Discord: <@${interaction.user.id}>\n` +
+        `Nome e ID: ${result[asks[1].id]} / ${result[asks[0].id]}\n` +
+        'Cargo: Membro\n' +
+        'Bairro: 49' +
+        '```'
       );
 
-    return interaction.guild.channels.cache.find((c) => c.id === config.register_channel_approval).send({ content: `*<@&${config.role_manager_recruitment}>, O usuário <@${interaction.user.id}>, efetuou um novo registro!*`, embeds: [ approval ], components: [ row ] });
+    return channelApproval.send({ content: `*<@&${config.role_manager_recruitment}>, O usuário <@${interaction.user.id}>, efetuou um novo registro!*`, embeds: [ approval ], components: [ row ] });
   } catch(err) {
     return Errors(err, `Command ${__filename}`)
       .then(() => command(client, interaction))

@@ -17,7 +17,15 @@ const event = async(client, member) => {
         `> ***Usuário:*** *<@${member.user.id}>*\n` +
         `> ***Nome:*** *${member.user.tag}*\n` +
         `> ***Apelido:*** *${member.nickname}*\n` +
-        `> ***ID do Discord:*** *${member.user.id}*\n`
+        `> ***ID do Discord:*** *${member.user.id}*\n` +
+
+        '\n> ***Solicitar Remoção de SET:***\n' +
+        '```' +
+        `Discord: <@${member.user.id}>\n` +
+        `Nome e ID: ${member.nickname}\n` +
+        'Cargo: Membro\n' +
+        'Bairro: 49' +
+        '```'
       );
 
     await channel.send({ embeds: [ embed ] }).catch(() => {});

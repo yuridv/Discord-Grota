@@ -1,8 +1,6 @@
 const { Errors } = require('../../utils/functions');
 const config = require('../../../config.json');
 
-const { WebhookClient, EmbedBuilder } = require('discord.js');
-
 const event = (client, message) => {
   try {
     if (message.author.id === config.bot_webhook_chest && message.channel.id === config.logs_channel_chest) {
