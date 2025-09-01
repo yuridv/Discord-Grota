@@ -6,8 +6,8 @@ const { EmbedBuilder } = require('discord.js');
 // spell-checker: disable
 const chests = {
   'bairro49': { channel: config.chest_channel_member, name: 'Membro' },
-  'bairro49l': { channel: config.chest_channel_elite, name: 'Elite' }
-  'bairro49ll': { channel: config.chest_channel_manager, name: 'Gerência' },
+  'bairro49l': { channel: config.chest_channel_elite, name: 'Elite' },
+  'bairro49ll': { channel: config.chest_channel_manager, name: 'Gerência' }
 };
 
 const items = {
