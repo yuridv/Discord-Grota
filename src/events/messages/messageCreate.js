@@ -36,7 +36,7 @@ const items = {
 
 const event = async(client, message) => {
   try {
-    if (/*message.author.id === config.bot_webhook_chest &&*/ message.channel.id === config.logs_channel_chest) {
+    if (message.author.id === config.bot_webhook_chest && message.channel.id === config.logs_channel_chest) {
       const embed = message?.embeds[0]?.data;
       if (!embed) return;
 
@@ -82,7 +82,6 @@ const event = async(client, message) => {
           `> *Item:* ***${values.item.name}***\n` +
           `> *Quantidade:* ***x${values.quantidade}***\n`
         )
-        // .setThumbnail(client.user.displayAvatarURL())
         .setTimestamp();
 
       const channel = message.guild.channels.cache.find((c) => c.id === (values.bau.channel || config.chest_channel_member));
