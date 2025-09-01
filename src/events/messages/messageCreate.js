@@ -4,6 +4,12 @@ const config = require('../../../config.json');
 const { EmbedBuilder } = require('discord.js');
 
 // spell-checker: disable
+const chests = {
+  'bairro49': { channel: config.chest_channel_member, name: 'Membro' },
+  'bairro49l': { channel: config.chest_channel_manager, name: 'Gerência' },
+  'bairro49ll': { channel: config.chest_channel_elite, name: 'Elite' }
+};
+
 const items = {
   // UTILIDADES
   'colete': { type: 'utils', name: 'Colete' },
@@ -28,36 +34,61 @@ const items = {
 };
 // spell-checker: enable
 
-const event = (client, message) => {
+const event = async(client, message) => {
   try {
-    if (message.author.id === config.bot_webhook_chest && message.channel.id === config.logs_channel_chest) {
-      const embed = message.embeds[0];
+    if (/*message.author.id === config.bot_webhook_chest &&*/ message.channel.id === config.logs_channel_chest) {
+      const embed = message?.embeds[0]?.data;
       if (!embed) return;
-      
-      const member = message.guild.members.cache.find(m => new RegExp(`\\b${embed.match(/\[ID\]:\s*(\d+)/)}$`).test(m?.displayName));
+
+      const lines = embed.description
+        .replace(/```.*?(\n|$)/g, '')
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '')
+        .toLowerCase()
+        .trim()
+        .split('\n');
+
+      const values = {
+        type: embed.title.includes('guardado') ? 1 : 0
+      };
+
+      for (const line of lines) {
+        const [ , key, value ] = line.match(/^\[(.+?)\]:\s*(.+)$/) || [];
+        if (!key) continue;
+
+        if (key === 'item') {
+          const m = value.match(/^(\d+)x\s*(.+)$/i);
+          values.quantidade = m ? Number(m[1]) : 1;
+          values.item = m ? m[2] : value;
+        } else {
+          values[key] = value;
+        }
+      }
+
+      values.bau = chests[values.bau] || { channel: '', name: values.bau };
+      values.item = items[values.item] || { type: '', name: values.item };
+
+      const member = message.guild.members.cache.find(m => new RegExp(`\\b${values.id}$`).test(m?.displayName));
+      values.member = member ? member.displayName : 'Não Encontrado - ' + values.id; 
 
       const embedLog = new EmbedBuilder()
         .setAuthor({ name: 'Logs Baú - ' + config.name, iconURL: config.avatar })
-        .setColor(embed.title.includes('guardado') ? '#00FF00' : '#FF0000')
+        .setColor(values.type ? '#00FF00' : '#FF0000')
         .setDescription(
-          `*Item* ***${embed.title.includes('guardado') ? 'guardado no' : 'retirado do'}*** *baú!*\n` +
+          `*Item* ${values.type ? '***guardado*** *no' : '***retirado*** *do'} baú!*\n\n` +
 
-          `> ***Membro:*** *${member ? member.displayName : 'Não Encontrado - ' + embed.match(/\[ID\]:\s*(\d+)/)}*\n` +
-          `> ***Item:*** *${embed.match(/\[ITEM\]:\s*(\d+)/)?.split(' ')[1]}*\n` +
-          `> ***Quantidade:*** *${embed.match(/\[ITEM\]:\s*(\d+)/)?.split(' ')[0]}*\n`
+          `> *Baú:* ***${values.bau.name}***\n` +
+          `> *Membro:* ***${values.member}***\n` +
+          `> *Item:* ***${values.item.name}***\n` +
+          `> *Quantidade:* ***x${values.quantidade}***\n`
         )
-        .setThumbnail(client.user.displayAvatarURL())
+        // .setThumbnail(client.user.displayAvatarURL())
         .setTimestamp();
 
-      let channel = message.guild.channels.cache.find((c) => c.id === config.chest_channel_member);
-      if (embed.match(/\[BAú\]:\s*(\d+)/) === 'Bairro49l') {
-        channel = message.guild.channels.cache.find((c) => c.id === config.chest_channel_manager);
-      } else if (embed.match(/\[BAú\]:\s*(\d+)/) === 'Bairro49ll') {
-        channel = message.guild.channels.cache.find((c) => c.id === config.chest_channel_elite);
-      }
-
+      const channel = message.guild.channels.cache.find((c) => c.id === (values.bau.channel || config.chest_channel_member));
       if (!channel) return;
-      channel.send({ embeds: [ embedLog ] });
+
+      await channel.send({ embeds: [ embedLog ] }).catch(() => {});
     }
   } catch (err) {
     return Errors(err, `Event ${__filename}`)
