@@ -13,6 +13,10 @@ const chests = {
 const items = {
   // UTILIDADES
   'colete': { type: 'utils', name: 'Colete' },
+  'bolsasaquear': { type: 'utils', name: 'Bolsa de Saquear' },
+  'corda': { type: 'utils', name: 'Corda' },
+  'algema': { type: 'utils', name: 'Algema' },
+  'capuz': { type: 'utils', name: 'Capuz' },
   // ARMAS
   'specialcarbinemk2': { type: 'gun', name: 'Carabina Especial (G3)' },
   'pistolmk2': { type: 'gun', name: 'Pistola MK2 (Five)' },
@@ -28,15 +32,23 @@ const items = {
   'ferrolhodepistola': { type: 'farm', name: 'Ferrolho de Pistola' },
   'ferrolhodesmg': { type: 'farm', name: 'Ferrolho de SMG' },
   'placa-metal': { type: 'farm', name: 'Placa de Metal' },
+  'mola': { type: 'farm', name: 'Mola' },
   'aco': { type: 'farm', name: 'Aço' },
   'couro': { type: 'farm', name: 'Couro' },
-  'zipper': { type: 'farm', name: 'Zipper' }
+  'zipper': { type: 'farm', name: 'Zipper' },
+  'lamina': { type: 'farm', name: 'Lamina' },
+  'prego': { type: 'farm', name: 'Prego' },
+  // ITEMS
+  'dinheirosujo': { type: 'items', name: 'Dinheiro Sujo' },
+  'tablethacker': { type: 'items', name: 'Tablet Hacker' },
+  'usbhacker': { type: 'items', name: 'USB Hacker' },
+  
 };
 // spell-checker: enable
 
 const event = async(client, message) => {
   try {
-    if (message.author.id === config.bot_webhook_chest && message.channel.id === config.logs_channel_chest) {
+    if ((message.author.id === config.bot_webhook_chest || message.author.id === client.user.id) && message.channel.id === config.logs_channel_chest) {
       const embed = message?.embeds[0]?.data;
       if (!embed) return;
 
@@ -57,9 +69,9 @@ const event = async(client, message) => {
         if (!key) continue;
 
         if (key === 'item') {
-          const m = value.match(/^(\d+)x\s*(.+)$/i);
-          values.quantidade = m ? Number(m[1]) : 1;
-          values.item = m ? m[2] : value;
+          const m = value.split(' ');
+          values.quantidade = m[1] ? m[0]?.replace('x', '') : 1;
+          values.item = m[1] || m[0] || m;
         } else {
           values[key] = value;
         }
@@ -80,7 +92,7 @@ const event = async(client, message) => {
           `> *Baú:* ***${values.bau.name}***\n` +
           `> *Membro:* ***${values.member}***\n` +
           `> *Item:* ***${values.item.name}***\n` +
-          `> *Quantidade:* ***x${values.quantidade}***\n`
+          `> *Quantidade:* ***${values.quantidade}***\n`
         )
         .setTimestamp();
 
