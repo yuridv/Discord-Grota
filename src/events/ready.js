@@ -11,7 +11,7 @@ const event = (client) => {
       activities: [
         {
           name: 'Created by MrDragon',
-          type: client.selfbot ? 'STREAMING' : ActivityType.Streaming,
+          type: ActivityType.Streaming,
           url: 'https://twitch.tv/mrdragonzin'
         }
       ]
