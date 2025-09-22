@@ -1,7 +1,9 @@
 const { Errors } = require('../../utils/functions');
 
 const event = async(client, interaction) => {
-  try {    
+  try {
+    if (client.selfbot) return;
+
     if (interaction.isChatInputCommand()) {
       const command = client.commands.find(r => r.name === interaction.commandName);
       if (!command || !command.route) return;

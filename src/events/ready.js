@@ -4,12 +4,16 @@ const { ActivityType } = require('discord.js');
 
 const event = (client) => {
   try {
-    console.log(colors.GREEN + colors.BOLD + '[Discord]=> Started successfully!' + colors.RESET);
+    console.log(colors.GREEN + colors.BOLD + `[${client.selfbot ? 'SelfBot' : 'Discord'}]=> Started successfully!` + colors.RESET);
 
     client.user.setPresence({
       status: 'dnd',
       activities: [
-        { name: 'Created by MrDragon', type: ActivityType.Streaming, url: 'https://twitch.tv/mrdragonzin' }
+        {
+          name: 'Created by MrDragon',
+          type: client.selfbot ? 'STREAMING' : ActivityType.Streaming,
+          url: 'https://twitch.tv/mrdragonzin'
+        }
       ]
     });
   } catch(err) {

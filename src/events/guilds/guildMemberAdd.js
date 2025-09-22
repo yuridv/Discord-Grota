@@ -4,7 +4,9 @@ const { Errors } = require('../../utils/functions');
 const config = require('../../../config.json');
 
 const event = async(client, member) => {
-  try {    
+  try {
+    if (client.selfbot) return;
+    
     await member.roles.add(config.role_random).catch(() => {});
 
     const channel = await member.guild.channels.cache.get(config.logs_channel_entry);

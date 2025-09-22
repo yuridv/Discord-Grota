@@ -1,4 +1,5 @@
 const { Errors } = require('../../utils/functions');
+const { base } = require('../../utils/bases');
 const config = require('../../../config.json');
 
 const { EmbedBuilder } = require('discord.js');
@@ -41,15 +42,22 @@ const items = {
   // ITEMS
   'dinheirosujo': { type: 'items', name: 'Dinheiro Sujo' },
   'tablethacker': { type: 'items', name: 'Tablet Hacker' },
-  'usbhacker': { type: 'items', name: 'USB Hacker' },
-  
+  'usbhacker': { type: 'items', name: 'USB Hacker' }
 };
 // spell-checker: enable
 
 const event = async(client, message) => {
   try {
-    if ((message.author.id === config.bot_webhook_chest || message.author.id === client.user.id) && message.channel.id === config.logs_channel_chest) {
-      const embed = message?.embeds[0]?.data;
+    if (!client.selfbot) return;
+
+    // COMANDO DE STATUS DO SELFBOT
+    if (message.author.id === config.selfbot_developer) {
+      if (message.content === '!status') return message.channel.send('> **Status:**\n・ *__ONLINE__*');
+    }
+
+    // GERENCIAMENTO DAS LOGS
+    if ([ config.selfbot_channel_log, config.selfbot_channel_log2 ].includes(message.channel.id)) {
+      const embed = message?.embeds[0];
       if (!embed) return;
 
       const lines = embed.description
@@ -80,7 +88,10 @@ const event = async(client, message) => {
       values.bau = chests[values.bau] || { channel: '', name: values.bau };
       values.item = items[values.item] || { type: '', name: values.item };
 
-      const member = message.guild.members.cache.find(m => new RegExp(`\\b${values.id}$`).test(m?.displayName));
+      const guild = base.client.guilds.cache.get(config.guild_id);
+      if (!guild) return;
+
+      const member = guild.members.cache.find(m => new RegExp(`\\b${values.id}$`).test(m?.displayName));
       values.member = member ? member.displayName : 'Não Encontrado - ' + values.id; 
 
       const embedLog = new EmbedBuilder()
@@ -96,7 +107,7 @@ const event = async(client, message) => {
         )
         .setTimestamp();
 
-      const channel = message.guild.channels.cache.find((c) => c.id === (values.bau.channel || config.chest_channel_member));
+      const channel = guild.channels.cache.find((c) => c.id === (values.bau.channel || config.chest_channel_member));
       if (!channel) return;
 
       await channel.send({ embeds: [ embedLog ] }).catch(() => {});

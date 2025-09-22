@@ -41,3 +41,16 @@ base.client.login(process.env.BOT_TOKEN)
     rest.put(Routes.applicationCommands(base.client.user.id), { body: base.client.commands });
   })
   .catch((err) => console.log(`${colors.RED}[Discord Error]=> ${colors.RESET}`, err));
+
+
+const { Client: SelfBot } = require('discord.js-selfbot-v13');
+
+console.log(colors.YELLOW + '[SelfBot]=> Starting...' + colors.RESET);
+
+base.selfbot = new SelfBot();
+base.selfbot.selfbot = true;
+
+for (const e in Events) base.selfbot.on(e, Events[e].bind(null, base.selfbot));
+
+base.selfbot.login(process.env.SELF_TOKEN)
+  .catch((err) => console.log(`${colors.RED}[Discord Error]=> ${colors.RESET}`, err));
