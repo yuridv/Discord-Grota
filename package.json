@@ -1,5 +1,5 @@
 {
-  "name": "discord-grota",
+  "name": "discord-faction",
   "description": "A simple Discord server management bot built to meet the needs of the client.",
   "version": "0.0.1",
   "main": "index.js",
@@ -9,7 +9,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yuridv/discord-grota.git"
+    "url": "git+https://github.com/yuridv/discord-faction.git"
   },
   "keywords": [
     "node",
@@ -24,9 +24,9 @@
   "author": "Yuri",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/yuridv/discord-grota/issues"
+    "url": "https://github.com/yuridv/discord-faction/issues"
   },
-  "homepage": "https://github.com/yuridv/discord-grota#readme",
+  "homepage": "https://github.com/yuridv/discord-faction#readme",
   "engines": {
     "node": ">=22.0.0"
   },
