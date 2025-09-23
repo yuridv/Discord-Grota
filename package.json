@@ -1,6 +1,6 @@
 {
   "name": "discord-faction",
-  "description": "A simple Discord server management bot built to meet the needs of the client.",
+  "description": "A simple Discord server management bot integrated with a selfbot created to serve the needs of clients of a faction in the game GTA V (FiveM)",
   "version": "0.0.1",
   "main": "index.js",
   "scripts": {
@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "discord.js": "^14.21.0",
+    "discord.js-selfbot-v13": "^3.7.0",
     "dotenv-safe": "^9.1.0",
     "mongoose": "^8.15.0"
   },
